@@ -1,0 +1,3 @@
+[submodule "covid19_ultrasound"]
+	path = covid19_ultrasound
+	url = https://github.com/jannisborn/covid19_ultrasound.git

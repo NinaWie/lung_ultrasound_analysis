@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+# Random directories for own usage
+preprocessing/paths.md
+.DS_Store
+*.vscode
+
 # Distribution / packaging
 .Python
 build/

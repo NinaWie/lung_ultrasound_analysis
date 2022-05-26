@@ -8,13 +8,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import cv2
 
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import (
-    classification_report, confusion_matrix, balanced_accuracy_score,
-    accuracy_score, matthews_corrcoef
-)
+from sklearn.metrics import accuracy_score
 
+from covlus.metrics import sensitivity_specificity
 from pocovidnet.evaluate_covid19 import Evaluator
+
 CLASS_MAPPING = ['covid', 'pneumonia', 'regular', 'uninformative']
 
 
@@ -62,17 +60,6 @@ def get_any(x):
         return 0
     else:
         return 2
-
-
-def sensitivity_specificity(y_true, y_pred, title):
-    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-    specificity = tn / (tn + fp)
-    sensitivity = tp / (tp + fn)
-    acc = accuracy_score(y_true, y_pred)
-    print(
-        f"Accuracy {title}", round(acc, 2), "sensitvity",
-        round(sensitivity, 2), "specificity", round(specificity, 2)
-    )
 
 
 def eval_predictions(res_dict, labels, out_path):

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import cv2
 
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 from covlus.metrics import sensitivity_specificity
 from pocovidnet.evaluate_covid19 import Evaluator
@@ -60,6 +60,15 @@ def get_any(x):
         return 0
     else:
         return 2
+
+
+def print_stats(y_true, y_pred, title):
+    sensitivity, specificity = sensitivity_specificity(y_true, y_pred)
+    acc = accuracy_score(y_true, y_pred)
+    print(
+        f"Accuracy {title}", round(acc, 2), "sensitvity",
+        round(sensitivity, 2), "specificity", round(specificity, 2)
+    )
 
 
 def eval_predictions(res_dict, labels, out_path):
@@ -155,22 +164,22 @@ def eval_predictions(res_dict, labels, out_path):
             "pred_index": get_any  # TODO: any suitable?
         }
     )
-    sensitivity_specificity(
+    print_stats(
         (res_df["pred_index"] == 0).astype(int),
         res_df["gt"].values,
         title="all (index) - frames"
     )
-    sensitivity_specificity(
+    print_stats(
         (grouped_by_vid_file["pred_index"] == 0).astype(int),
         grouped_by_vid_file["gt"].values,
         title="all (index) - vid files"
     )
-    sensitivity_specificity(
+    print_stats(
         (grouped_by_subject["pred_index"] == 0).astype(int),
         grouped_by_subject["gt"].values,
         title="all (index) - subjects"
     )
-    sensitivity_specificity(
+    print_stats(
         (grouped_by_subject_2["pred_index"] == 0).astype(int),
         grouped_by_subject_2["gt"].values,
         title="all (index) - subjects 2"
